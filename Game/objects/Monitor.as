@@ -6,6 +6,7 @@
 	import flash.media.Sound;
 	
 	import flash.utils.setTimeout;
+	import objects.player.effects.*;
 	
 	public class Monitor extends BaseObject {
 		var destroyed:Boolean = false;
@@ -35,6 +36,7 @@
 		override public function loop() {
 			super.loop();
 			
+			if (!player) return;
 			if (player.rolling || player.jumping || destroyed) {
 				params.solid = false;
 			} else {
@@ -43,7 +45,31 @@
 		}
 		
 		function giveItem(item:String) {
-			
+			setTimeout(function() {
+				switch (item) {
+					case 'Life':
+						PlayerStats.lives += 1;
+						
+						var sfx1up:Monitor1UPSound = new Monitor1UPSound(); 
+						sfx1up.play();
+						break;
+					case 'Ring':
+						player.rings += 10;
+						break;
+					case 'Shield':
+						player.itemsHeld.push('shield');
+						player.refreshItemFX();
+						
+						var sfxShield:MonitorShieldSound = new MonitorShieldSound(); 
+						sfxShield.play();
+						break;
+					case 'Invincibility':
+						player.itemsHeld.push('invincibility');
+						player.refreshItemFX();
+						player.invinceTimer = 1380;
+						break;
+				}
+			}, 1000);
 		}
 	}
 	

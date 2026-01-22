@@ -54,6 +54,22 @@
 					case "Ring":
 						object = new Ring();
 						break;
+					case "1up Monitor":
+						object = new Monitor();
+						object.gotoAndStop('Life');
+						break;
+					case "Ring Monitor":
+						object = new Monitor();
+						object.gotoAndStop('Ring');
+						break;
+					case "Shield Monitor":
+						object = new Monitor();
+						object.gotoAndStop('Shield');
+						break;
+					case "Invincibility Monitor":
+						object = new Monitor();
+						object.gotoAndStop('Invincibility');
+						break;
 				}
 				object.x = pos.x;
 				object.y = pos.y;

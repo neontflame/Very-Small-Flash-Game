@@ -14,6 +14,8 @@
 	
 	import level.Level;
 	import objects.player.sprites.*;
+	import objects.player.effects.*;
+	import flash.display.BlendMode;
 	
 	public class Player extends MovieClip {
 		public var params:Object = {
@@ -53,7 +55,7 @@
 		
 		public var healthState:Number = 0; // 0 is normal, 1 is temporary invince, 2 is post-hurt, 3 is DEAD.
 		
-		var invinceTimer:Number = 0;
+		public var invinceTimer:Number = 0; // Bravo Vince.
 		public var itemsHeld:Array = []; // shield, shoes, invincibility
 		public var shieldType:Number = 0; // 0 normal, 1 bubble, 2 air, 3 fire
 		// though this is sonic 1-based so #lol
@@ -62,6 +64,7 @@
 		
 		public var rotHelper:MovieClip;
 		public var plysprite:MovieClip;
+		public var itemEffect:MovieClip;
 		
 		public var spriteOffsets:Object = {
 			scale: 1,
@@ -104,7 +107,37 @@
 			addChild(plysprite);
 			plysprite.stop();
 		}
-		
+
+		public function modifyItemEffect(fx:MovieClip):void {
+			if (getChildByName('itemEffect') != null) {
+				removeChild(getChildByName('itemEffect'));
+			}
+			itemEffect = null;
+			if (fx == null && itemEffect != null) {
+				return;
+			}
+			
+			itemEffect = fx;
+			itemEffect.y = -(params.height/2)
+			itemEffect.alpha = 0.5;
+			itemEffect.blendMode = BlendMode.HARDLIGHT;
+			itemEffect.name = "itemEffect";
+			addChild(itemEffect);
+		}
+
+		public function refreshItemFX() {
+			itemEffect = new MovieClip();
+			itemEffect.alpha = 0;
+			
+			if (itemsHeld.indexOf('shield') != -1) {
+				modifyItemEffect(new ShieldFX());
+			}
+			
+			if (itemsHeld.indexOf('invincibility') != -1) {
+				modifyItemEffect(new InvincibleFX());
+				itemEffect.alpha = 1;
+			}
+		}
 		public function create(event: Event): void {
 			// Runs once when frame is entered!
 			root.removeEventListener(Event.ENTER_FRAME, create);
@@ -550,6 +583,14 @@
 				}
 			}
 			
+			if (itemsHeld.indexOf('invincibility') != -1) {
+				if (invinceTimer > 1) {
+					invinceTimer -= 1;
+				} else {
+					itemsHeld.splice(itemsHeld.indexOf('invincibility'), 1);
+					refreshItemFX();
+				}
+			}
 			if (healthState == 1) {
 				if (invinceTimer > 0) {
 					invinceTimer -= 1;
@@ -774,44 +815,58 @@
 		
 		function yowch(forceDeath:Boolean = false) {
 			if (healthState < 1) {
-				if (rings > 0 && !forceDeath) {
-					sfxChannel.stop();
-					var loseringssfx:LoseRingsSound = new LoseRingsSound(); 
-					sfxChannel = loseringssfx.play();
-					
-					jumping = false;
-					velocity.y = -7;
-					healthState = 2;
-					invinceTimer = 120;
-					
-					var posOfEvil = new Point(x - _lvl.x, (y - params.height/2) - _lvl.y - 32);
-					
-					for (var ringLost = 0; ringLost < rings; ringLost++) {
-						var coolAngle = ((180 / rings) * ringLost) - 90;
-						var coolSin = Math.sin(Cool.degToRad(coolAngle));
-						var coolCos = Math.cos(Cool.degToRad(coolAngle));
-						trace ('ring ' + ringLost + ' : ' + coolAngle + ' | sin: ' + coolSin + ' | cos: ' + coolCos);
-						
-						var ring = _lvl.addObject(posOfEvil.x, posOfEvil.y, 'Ring');
-						ring.x = posOfEvil.x;
-						ring.y = posOfEvil.y;
-						ring.params.hasPhysics = true;
-						ring.params.bouncy = true;
-						ring.velocity.x = 3 * coolSin;
-						ring.velocity.y = -3 * coolCos;
+				if (!forceDeath) {
+					if (rings > 0 || itemsHeld.indexOf('shield') != -1) {
+						jumping = false;
+						velocity.y = -7;
+						healthState = 2;
+						invinceTimer = 120;
 					}
-					rings = 0;
-				} else {
-					sfxChannel.stop();
-					var hurtsfx:HurtSound = new HurtSound(); 
-					sfxChannel = hurtsfx.play();
 					
-					jumping = false;
-					gravityAngle = 90;
-					velocity.y = -7;
-					healthState = 3;
-					PlayerStats.lives -= 1;
-					TimeTracker.stopTimer();
+					if (itemsHeld.indexOf('shield') != -1) {
+						// Shield Loster
+						sfxChannel.stop();
+						var hurtsfx:HurtSound = new HurtSound(); 
+						sfxChannel = hurtsfx.play();
+						
+						itemsHeld.splice(itemsHeld.indexOf('shield'), 1);
+						refreshItemFX();
+					} else if (rings > 0) {
+						// Ring Loster
+						sfxChannel.stop();
+						var loseringssfx:LoseRingsSound = new LoseRingsSound(); 
+						sfxChannel = loseringssfx.play();
+											
+						var posOfEvil = new Point(x - _lvl.x, (y - params.height/2) - _lvl.y - 32);
+						
+						for (var ringLost = 0; ringLost < rings; ringLost++) {
+							var coolAngle = ((180 / rings) * ringLost) - 90;
+							var coolSin = Math.sin(Cool.degToRad(coolAngle));
+							var coolCos = Math.cos(Cool.degToRad(coolAngle));
+							trace ('ring ' + ringLost + ' : ' + coolAngle + ' | sin: ' + coolSin + ' | cos: ' + coolCos);
+							
+							var ring = _lvl.addObject(posOfEvil.x, posOfEvil.y, 'Ring');
+							ring.x = posOfEvil.x;
+							ring.y = posOfEvil.y;
+							ring.params.hasPhysics = true;
+							ring.params.bouncy = true;
+							ring.velocity.x = 3 * coolSin;
+							ring.velocity.y = -3 * coolCos;
+						}
+						rings = 0;
+					} else {
+						// Life Loster
+						sfxChannel.stop();
+						var hurtsfx:HurtSound = new HurtSound(); 
+						sfxChannel = hurtsfx.play();
+						
+						jumping = false;
+						gravityAngle = 90;
+						velocity.y = -7;
+						healthState = 3;
+						PlayerStats.lives -= 1;
+						TimeTracker.stopTimer();
+					}
 				}
 			}
 			

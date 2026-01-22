@@ -174,7 +174,11 @@
 			return editMenu;
 		}
 
-		var objList:Array = ["Ring","Monitor","Checkpoint","","Motobug","Chopper","","Spawnpoint"];
+		var objList:Array = ["Ring", "Checkpoint",
+							"",
+							"1up Monitor", "Ring Monitor", "Shield Monitor", "Invincibility Monitor", 
+							"",
+							"Motobug","Chopper","","Spawnpoint"];
 		public function createObjectsMenu():NativeMenu
 		{
 			var editMenu:NativeMenu = new NativeMenu();

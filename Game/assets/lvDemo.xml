@@ -9,6 +9,25 @@
     <chunk lvl="GHZ" type="2" x="1408" y="416"/>
     <chunk lvl="GHZ" type="1" x="1440" y="544"/>
     <chunk lvl="GHZ" type="1" x="1696" y="544"/>
+    <chunk lvl="GHZ" type="1" x="2080" y="544"/>
+    <chunk lvl="GHZ" type="1" x="2272" y="480"/>
+    <chunk lvl="GHZ" type="1" x="2400" y="416"/>
+    <chunk lvl="GHZ" type="1" x="2528" y="352"/>
+    <chunk lvl="GHZ" type="1" x="2784" y="256"/>
+    <chunk lvl="GHZ" type="1" x="3040" y="0"/>
+    <chunk lvl="GHZ" type="1" x="3040" y="256"/>
+    <chunk lvl="GHZ" type="1" x="3040" y="-256"/>
+    <chunk lvl="GHZ" type="1" x="-128" y="224"/>
+    <chunk lvl="GHZ" type="1" x="-128" y="-32"/>
+    <chunk lvl="GHZ" type="1" x="-128" y="-288"/>
+    <chunk lvl="GHZ" type="1" x="1824" y="992"/>
+    <chunk lvl="GHZ" type="1" x="2080" y="992"/>
+    <chunk lvl="GHZ" type="2" x="2336" y="992"/>
+    <chunk lvl="GHZ" type="1" x="2400" y="1088"/>
+    <chunk lvl="GHZ" type="1" x="2656" y="1088"/>
+    <chunk lvl="GHZ" type="1" x="3008" y="1056"/>
+    <chunk lvl="GHZ" type="1" x="3328" y="1024"/>
+    <chunk lvl="GHZ" type="1" x="3680" y="992"/>
   </chunks>
   <objects>
     <object x="192" y="192" obj="Ring"/>
@@ -21,5 +40,22 @@
     <object x="256" y="160" obj="Ring"/>
     <object x="256" y="128" obj="Ring"/>
     <object x="992" y="352" obj="Spawnpoint"/>
+    <object x="1152" y="416" obj="1up Monitor"/>
+    <object x="1216" y="416" obj="Ring Monitor"/>
+    <object x="1280" y="416" obj="Shield Monitor"/>
+    <object x="1600" y="544" obj="Invincibility Monitor"/>
+    <object x="2944" y="256" obj="Invincibility Monitor"/>
+    <object x="2848" y="224" obj="Ring"/>
+    <object x="2816" y="224" obj="Ring"/>
+    <object x="2784" y="192" obj="Ring"/>
+    <object x="2784" y="224" obj="Ring"/>
+    <object x="2816" y="192" obj="Ring"/>
+    <object x="2816" y="192" obj="Ring"/>
+    <object x="2848" y="192" obj="Ring"/>
+    <object x="2816" y="192" obj="Ring"/>
+    <object x="2816" y="192" obj="Ring"/>
+    <object x="2816" y="192" obj="Ring"/>
+    <object x="1760" y="544" obj="Ring Monitor"/>
+    <object x="3872" y="992" obj="Invincibility Monitor"/>
   </objects>
 </level>
