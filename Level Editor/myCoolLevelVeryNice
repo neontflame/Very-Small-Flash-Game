@@ -1,0 +1,26 @@
+<level>
+  <chunks>
+    <chunk lvl="GHZ" type="1" x="128" y="256"/>
+    <chunk lvl="GHZ" type="1" x="128" y="256"/>
+    <chunk lvl="GHZ" type="1" x="384" y="256"/>
+    <chunk lvl="GHZ" type="2" x="640" y="256"/>
+    <chunk lvl="GHZ" type="1" x="640" y="512"/>
+    <chunk lvl="GHZ" type="1" x="896" y="512"/>
+  </chunks>
+  <objects>
+    <object x="320" y="192" obj="Ring"/>
+    <object x="384" y="224" obj="Ring"/>
+    <object x="256" y="192" obj="Ring"/>
+    <object x="288" y="192" obj="Ring"/>
+    <object x="320" y="192" obj="Ring"/>
+    <object x="352" y="192" obj="Ring"/>
+    <object x="416" y="192" obj="Ring"/>
+    <object x="384" y="192" obj="Ring"/>
+    <object x="384" y="160" obj="Ring"/>
+    <object x="352" y="160" obj="Ring"/>
+    <object x="320" y="160" obj="Ring"/>
+    <object x="288" y="160" obj="Ring"/>
+    <object x="320" y="128" obj="Ring"/>
+    <object x="352" y="128" obj="Ring"/>
+  </objects>
+</level>

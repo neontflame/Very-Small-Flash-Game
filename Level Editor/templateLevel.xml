@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<level>
+    <objects>
+        <object obj="Ring" x="0" y="0"></object>
+        <object obj="Ring" x="10" y="0"></object>
+    </objects>
+    <chunks>
+        <chunk lvl="GHZ" type="1" x="0" y="0"></chunk>
+    </chunks>
+</level>
