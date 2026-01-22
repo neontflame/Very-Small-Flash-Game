@@ -4,4 +4,4 @@ This is a Sonic fangame in which Sonic is not playable, but rather a girl from a
 
 ---
 
-Aside from serving as a tiny 1-zone crossover between *Magical Play* and *Sonic the Hedgehog*, this project also serves a purpose of mainly just figuring how much stuff I can make using Flash CS6 and AS3!
+Aside from serving as a tiny 1-zone crossover between *Magical Play* and *Sonic the Hedgehog* (mostly *Sonic*), this project also serves a purpose of mainly just figuring how much stuff I can make using Flash CS6 and AS3!
