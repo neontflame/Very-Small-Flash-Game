@@ -32,6 +32,8 @@
 		var addedSolid:Boolean = false;
 		var levelPos:Point = new Point(0,0);
 		
+		var framesElapsed:Number = 0;
+		
 		public function BaseObject() {
 			// constructor code
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -88,6 +90,7 @@
 				}
 				
 				if (params.hasPhysics) {
+					framesElapsed += 1;
 					doPhysixShit();
 				}
 				
@@ -137,11 +140,11 @@
 			
 			velocity.y += params.gravForce;
 			
-			for (var i = 0; i < 2; i++) {
+			if (framesElapsed % 4 == 0) {
 				collideFloor();
 				collideWall();
+				collideCeil();
 			}
-			collideCeil();
 			x += velocity.x;
 			y += velocity.y;
 		}

@@ -37,10 +37,11 @@
 			super.loop();
 			
 			if (!player) return;
-			if (player.rolling || player.jumping || destroyed) {
+			
+			if (player.rolling || player.jumping) {
 				params.solid = false;
 			} else {
-				params.solid = true;
+				params.solid = !destroyed;
 			}
 		}
 		
@@ -55,6 +56,9 @@
 						break;
 					case 'Ring':
 						player.rings += 10;
+						// sfx
+						var sfx:RingSound = new RingSound(); 
+						sfx.play();
 						break;
 					case 'Shield':
 						player.itemsHeld.push('shield');

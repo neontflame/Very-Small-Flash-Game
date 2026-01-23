@@ -110,6 +110,7 @@
 
 		public function modifyItemEffect(fx:MovieClip):void {
 			if (getChildByName('itemEffect') != null) {
+				getChildByName('itemEffect').visible = false;
 				removeChild(getChildByName('itemEffect'));
 			}
 			itemEffect = null;
@@ -118,6 +119,7 @@
 			}
 			
 			itemEffect = fx;
+			itemEffect.visible = true;
 			itemEffect.y = -(params.height/2)
 			itemEffect.alpha = 0.5;
 			itemEffect.blendMode = BlendMode.HARDLIGHT;
@@ -126,8 +128,7 @@
 		}
 
 		public function refreshItemFX() {
-			itemEffect = new MovieClip();
-			itemEffect.alpha = 0;
+			if (itemEffect != null) itemEffect.visible = false;
 			
 			if (itemsHeld.indexOf('shield') != -1) {
 				modifyItemEffect(new ShieldFX());
@@ -436,7 +437,7 @@
 			}
 			
 			for each(var col in _lvl.solids) {
-				if (col.hitTestPoint(p.x, p.y, true)) {
+				if (col.hitTestPoint(p.x, p.y, true) && col.params.solid) {
 					return true;
 				}
 			}
@@ -457,7 +458,7 @@
 			}
 			
 			for each(var col in _lvl.solids) {
-				if (col.hitTestPoint(px, py, true)) {
+				if (col.hitTestPoint(px, py, true) && col.params.solid) {
 					return true;
 				}
 			}
