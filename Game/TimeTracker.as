@@ -1,5 +1,6 @@
 ﻿package  {
 	import flash.utils.setInterval;
+	import flash.utils.clearInterval;
 	import flash.geom.Point;
 
 	public class TimeTracker {
@@ -14,16 +15,19 @@
 			time.x = 0;
 			time.y = 0;
 			
-			timeInterval = setInterval(function() {
-						time.y += 1;
-						if (time.y == 60) {
-							time.x += 1;
-							time.y = 0;
-						}
-					}, 1000);
+			timeInterval = setInterval(elapseSecond, 1000);
 		}
 		public static function stopTimer() {
+			clearInterval(timeInterval);
 			timeInterval = null;
+		}
+		
+		static function elapseSecond() {	
+			time.y += 1;
+			if (time.y == 60) {
+				time.x += 1;
+				time.y = 0;
+			}
 		}
 	}
 	

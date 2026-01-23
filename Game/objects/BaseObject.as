@@ -36,6 +36,7 @@
 		
 		public function BaseObject() {
 			// constructor code
+			stop();
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		

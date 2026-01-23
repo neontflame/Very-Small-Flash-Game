@@ -70,6 +70,9 @@
 						object = new Monitor();
 						object.gotoAndStop('Invincibility');
 						break;
+					case "Checkpoint":
+						object = new Checkpoint();
+						break;
 				}
 				object.x = pos.x;
 				object.y = pos.y;
