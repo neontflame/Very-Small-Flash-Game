@@ -185,7 +185,9 @@
 							"",
 							"1up Monitor", "Ring Monitor", "Shield Monitor", "Invincibility Monitor", 
 							"",
-							"Motobug","Chopper","","Spawnpoint", "Death Limit"];
+							"Motobug","Chopper", "Buzz Bomber", "Crabmeat", 
+							"",
+							"Spawnpoint", "Death Limit"];
 		public function createObjectsMenu():NativeMenu
 		{
 			var editMenu:NativeMenu = new NativeMenu();
