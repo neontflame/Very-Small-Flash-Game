@@ -40,6 +40,16 @@
 			trace("Loading XML onto LevelLoader...");
 			levelXml = new XML(xmlData);
 			// trace(levelXml.toXMLString()); 
+
+			var meta = levelXml.metadata.data[0];
+			
+			lvl.lvlFirstName = meta.attribute("name1");
+			lvl.lvlSecondName = meta.attribute("name2");
+			lvl.lvlAppendix = meta.attribute("appendix");
+			lvl.lvlSong = meta.attribute("song");
+			
+			trace(lvl.lvlFirstName + ' ' + lvl.lvlSecondName + ' Zone, act ' + lvl.lvlAppendix);
+			trace('Song played should be ' + lvl.lvlSong);
 			
 			for each (var chunk:XML in levelXml.chunks.chunk) {
 				lvl.addChunk(Number(chunk.attribute("x")), Number(chunk.attribute("y")), int(chunk.attribute("type")));

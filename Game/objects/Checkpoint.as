@@ -18,8 +18,7 @@
 			if (!checked) {
 				PlayerStats.checkpoint = new Point(player.x, player.y);
 				// sfx
-				var sfx:CheckpointSound = new CheckpointSound(); 
-				sfx.play();
+				MusicPlayer.playSfx('CheckpointSound');
 				
 				gotoAndStop('Checked');
 				checked = true;

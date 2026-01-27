@@ -19,6 +19,13 @@
 		public var ply:Player = null;
 		public var spawn:Spawnpoint;
 		
+		public var lvlFirstName:String = 'Level';
+		public var lvlSecondName:String = 'Name';
+		public var lvlAppendix:String = '1';
+		public var lvlSong:String = 'GHZ1GensMusic';
+		
+		public var lvlDeathY:Number = 9999;
+		
 		public function Level() {
 			// idfk lol
 			chunks = new Vector.<Chunk>();
@@ -46,8 +53,9 @@
 			if (ojects == null) ojects = new Array();
 			
 			var pos:Point = new Point(xPos, yPos);
+			var differentBehaviorObjs:Array = ["Spawnpoint", "Death Limit"]
 			
-			if (current != "Spawnpoint") {
+			if (differentBehaviorObjs.indexOf(current) == -1) {
 				var object:BaseObject = new BaseObject();
 				
 				switch (current) {
@@ -80,10 +88,17 @@
 				// object.gotoAndStop(current);
 				addChild(object);
 			} else {
-				spawn = new Spawnpoint();
-				spawn.x = pos.x;
-				spawn.y = pos.y;
-				addChild(spawn);
+				switch (current) {
+					case "Spawnpoint":
+						spawn = new Spawnpoint();
+						spawn.x = pos.x;
+						spawn.y = pos.y;
+						addChild(spawn);
+						break;
+					case "Death Limit":
+						lvlDeathY = pos.y;
+						break;
+				}
 			}
 			
 			trace('Object: ' + current + 

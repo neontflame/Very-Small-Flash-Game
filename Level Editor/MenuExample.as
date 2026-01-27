@@ -129,7 +129,14 @@
 			decreaseSnaps.addEventListener(Event.SELECT, selectEdit);
 			decreaseSnaps.keyEquivalent = "-";
 			decreaseSnaps.keyEquivalentModifiers = [Keyboard.CONTROL,Keyboard.SHIFT];
+			
+			editMenu.addItem(new NativeMenuItem("", true));
 
+			var metadataCommand:NativeMenuItem = editMenu.addItem(new NativeMenuItem("Edit level metadata"));
+			metadataCommand.addEventListener(Event.SELECT, selectEdit);
+			metadataCommand.keyEquivalent = "m";
+			metadataCommand.keyEquivalentModifiers = [Keyboard.CONTROL,Keyboard.SHIFT];
+			
 			return editMenu;
 		}
 
@@ -159,17 +166,17 @@
 			var selectCommand:NativeMenuItem = editMenu.addItem(new NativeMenuItem("Select"));
 			selectCommand.addEventListener(Event.SELECT, selectTool);
 			selectCommand.keyEquivalent = "1";
-			selectCommand.keyEquivalentModifiers = [];
+			selectCommand.keyEquivalentModifiers = [Keyboard.SHIFT];
 
 			var placeCommand:NativeMenuItem = editMenu.addItem(new NativeMenuItem("Place"));
 			placeCommand.addEventListener(Event.SELECT, selectTool);
 			placeCommand.keyEquivalent = "2";
-			placeCommand.keyEquivalentModifiers = [];
+			placeCommand.keyEquivalentModifiers = [Keyboard.SHIFT];
 
 			var eraseCommand:NativeMenuItem = editMenu.addItem(new NativeMenuItem("Erase"));
 			eraseCommand.addEventListener(Event.SELECT, selectTool);
 			eraseCommand.keyEquivalent = "3";
-			eraseCommand.keyEquivalentModifiers = [];
+			eraseCommand.keyEquivalentModifiers = [Keyboard.SHIFT];
 
 			return editMenu;
 		}
@@ -178,7 +185,7 @@
 							"",
 							"1up Monitor", "Ring Monitor", "Shield Monitor", "Invincibility Monitor", 
 							"",
-							"Motobug","Chopper","","Spawnpoint"];
+							"Motobug","Chopper","","Spawnpoint", "Death Limit"];
 		public function createObjectsMenu():NativeMenu
 		{
 			var editMenu:NativeMenu = new NativeMenu();
@@ -378,8 +385,8 @@
 			trace('edit: ' + event.target.label);
 			switch (event.target.label)
 			{
-				case "Copy properties" :
-					EditorProperties.copyProps();
+				case "Edit level metadata":
+					EditorProperties.changeTool('Metadata');
 					break;
 				case "Increase snap" :
 					EditorProperties.incSnap();

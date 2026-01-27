@@ -1,14 +1,19 @@
 ﻿package  {
 	import flash.utils.getQualifiedClassName;
+	import flash.display.MovieClip;
 	
 	public class EditorProperties {
 		public static var coolLvl:CoolLevel;
+		
+		public static var metadataEditor:MovieClip;
 		
 		public static var snapping:Number = 32;
 		public static var curChunk:Number = 1;
 		public static var curObject:String = "Ring";
 		public static var curTool:String = "Select";
 		public static var curSubtool:String = "chunk";
+		
+		public static var loadingLevel:Boolean = false;
 		
 		public function EditorProperties() {
 			// constructor code
@@ -34,6 +39,10 @@
 			changeSubtool('object');
 		}
 
+		public static function setMetadataEditor(edit:MovieClip) {
+			metadataEditor = edit;
+		}
+		
 		public static function incChunk(){
 			curChunk += 1;
 			

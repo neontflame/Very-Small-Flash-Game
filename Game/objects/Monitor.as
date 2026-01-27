@@ -27,8 +27,7 @@
 					gotoAndStop('Destroyed');
 					
 					// sfx
-					var sfx:DestroySound = new DestroySound(); 
-					sfx.play();
+					MusicPlayer.playSfx('DestroySound');
 				}
 			}
 		}
@@ -57,20 +56,19 @@
 					case 'Ring':
 						player.rings += 10;
 						// sfx
-						var sfx:RingSound = new RingSound(); 
-						sfx.play();
+						MusicPlayer.playSfx('RingSound');
 						break;
 					case 'Shield':
 						player.itemsHeld.push('shield');
 						player.refreshItemFX();
 						
-						var sfxShield:MonitorShieldSound = new MonitorShieldSound(); 
-						sfxShield.play();
+						MusicPlayer.playSfx('MonitorShieldSound');
 						break;
 					case 'Invincibility':
 						player.itemsHeld.push('invincibility');
 						player.refreshItemFX();
 						player.invinceTimer = 1380;
+						MusicPlayer.playMusic('InvinceMusic', true);
 						break;
 				}
 			}, 1000);

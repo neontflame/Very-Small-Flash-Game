@@ -20,9 +20,21 @@
 			trace("Clearing level...");
 			lvl.clearAll();
 			
+			EditorProperties.loadingLevel = true;
+			
 			trace("Loading XML onto LevelLoader...");
 			levelXml = new XML(xmlData);
 			// trace(levelXml.toXMLString()); 
+			
+			var meta = levelXml.metadata.data[0];
+			
+			lvl.lvlFirstName = meta.attribute("name1");
+			lvl.lvlSecondName = meta.attribute("name2");
+			lvl.lvlAppendix = meta.attribute("appendix");
+			lvl.lvlSong = meta.attribute("song");
+			
+			trace(lvl.lvlFirstName + ' ' + lvl.lvlSecondName + ' Zone, act ' + lvl.lvlAppendix);
+			trace('Song played should be ' + lvl.lvlSong);
 			
 			for each (var chunk:XML in levelXml.chunks.chunk) {
 				trace('Chunk level: ' + chunk.attribute("lvl") + 
@@ -47,8 +59,15 @@
 		public static function saveLevelToXml(lvl:CoolLevel):XML
 		{
 			trace("Saving level to XML...");
-			levelXml = new XML('<?xml version="1.0" encoding="UTF-8" ?><level><chunks></chunks><objects></objects></level>');
+			levelXml = new XML('<?xml version="1.0" encoding="UTF-8" ?><level><metadata></metadata><chunks></chunks><objects></objects></level>');
 			
+			var metaXml:XML = <data/>;
+			metaXml.@name1 = lvl.lvlFirstName;
+			metaXml.@name2 = lvl.lvlSecondName;
+			metaXml.@appendix = lvl.lvlAppendix;
+			metaXml.@song = lvl.lvlSong;
+			levelXml.metadata.appendChild(metaXml);
+				
 			for each(var chunk in lvl.chunks) {
 				var chunkXml:XML = <chunk/>;
 				chunkXml.@lvl = "GHZ";

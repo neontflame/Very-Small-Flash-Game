@@ -14,6 +14,10 @@
 		public var objects:Vector.<CoolObject>;
 		public var selectedThing = null;
 		public var selectedPos:Point = new Point(0,0);
+		public var lvlFirstName:String = 'Level';
+		public var lvlSecondName:String = 'Name';
+		public var lvlAppendix:String = '1';
+		public var lvlSong:String = 'GHZ1GensMusic';
 		
 		public function CoolLevel() {
 			// constructor code

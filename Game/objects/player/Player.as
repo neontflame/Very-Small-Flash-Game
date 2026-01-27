@@ -120,13 +120,14 @@
 			
 			itemEffect = fx;
 			itemEffect.visible = true;
-			itemEffect.y = -(params.height/2)
+			itemEffect.x = 0;
+			itemEffect.y = -(params.height/2);
 			itemEffect.alpha = 0.5;
 			itemEffect.blendMode = BlendMode.HARDLIGHT;
 			itemEffect.name = "itemEffect";
 			addChild(itemEffect);
 		}
-
+		
 		public function refreshItemFX() {
 			if (itemEffect != null) itemEffect.visible = false;
 			
@@ -470,7 +471,16 @@
 		//////////////////////
 		/// sprite coisos
 		//////////////////////
+		public var trailBehindPos:Point = new Point(0, 0);
+		public var trailBehindBehindPos:Point = new Point(0, 0);
+		
 		public function spriteUpdate() {
+			trailBehindPos.x = Cool.lerp(trailBehindPos.x, x, 0.1);
+			trailBehindPos.y = Cool.lerp(trailBehindPos.y, y, 0.1);
+			
+			trailBehindBehindPos.x = Cool.lerp(trailBehindBehindPos.x, x, 0.075);
+			trailBehindBehindPos.y = Cool.lerp(trailBehindBehindPos.y, y, 0.075);
+			
 			plysprite.x = spriteOffsets.x;
 			plysprite.y = spriteOffsets.y;
 			plysprite.rotation = spriteOffsets.rotation;
@@ -483,6 +493,23 @@
 			
 			spriteOffsets.x = ((params.height/2) * costs);
 			spriteOffsets.y = ((params.height/2) * sins) - (params.height/2);
+			
+			if (itemsHeld.indexOf('invincibility') != -1) {
+				switch (invinceTimer % 3) {
+					case 0:
+						itemEffect.x = 0;
+						itemEffect.y = -(params.height/2);
+						break;
+					case 1:
+						itemEffect.x = trailBehindPos.x - x;
+						itemEffect.y = trailBehindPos.y - y - (params.height/2);
+						break;
+					case 2:
+						itemEffect.x = trailBehindBehindPos.x - x;
+						itemEffect.y = trailBehindBehindPos.y - y - (params.height/2);
+						break;
+				}
+			}
 		}
 		//////////////////////
 		/// MOVIMENTO O QUE
@@ -543,6 +570,11 @@
 			if (velocity.x < -params.maxHardSpeed) {
 				velocity.x = -params.maxHardSpeed;
 			}
+			
+			// cool deaths.
+			if (y > _lvl.lvlDeathY + _lvl.y) {
+				yowch(true);
+			}
 		}
 		
 		function allCollides(xHori, yHori, xVert, yVert) {
@@ -590,6 +622,7 @@
 				} else {
 					itemsHeld.splice(itemsHeld.indexOf('invincibility'), 1);
 					refreshItemFX();
+					MusicPlayer.playMusic(_lvl.lvlSong);
 				}
 			}
 			if (healthState == 1) {
@@ -679,12 +712,9 @@
 		}
 		
 		var isBraking:Boolean = false;
-		var sfxChannel:SoundChannel;
 		
 		public function getSfxing() {
 			if (healthState > 2) return;
-			if (sfxChannel == null) 
-				sfxChannel = new SoundChannel();
 				
 			if (floorCheck(1)) {
 				if (!rolling) {
@@ -692,9 +722,7 @@
 						if (velocity.x < -1) {
 							if (!isBraking) {
 								isBraking = true;
-								sfxChannel.stop();
-								var skidsfx:SkiddingSound = new SkiddingSound();
-								sfxChannel = skidsfx.play();
+								MusicPlayer.playSfx('SkiddingSound', true);
 							}
 						} else {
 							isBraking = false;
@@ -705,9 +733,7 @@
 						if (velocity.x > 1) {
 							if (!isBraking) {
 								isBraking = true;
-								sfxChannel.stop();
-								var skidsfx:SkiddingSound = new SkiddingSound();
-								sfxChannel = skidsfx.play();
+								MusicPlayer.playSfx('SkiddingSound', true);
 							}
 						} else {
 							isBraking = false;
@@ -716,18 +742,14 @@
 				}
 				if (keyPressed[Keyboard.DOWN] && Math.abs(velocity.x) > 1) {
 					if (!rolling) {
-						sfxChannel.stop();
-						var spinsfx:ChargeSound = new ChargeSound(); 
-						sfxChannel = spinsfx.play();
+						MusicPlayer.playSfx('ChargeSound', true);
 					}
 				}
 			}
 			
 			if (kowot_frames > 0 && keyPressed[Keyboard.UP]) {
 				// jump sfx
-				sfxChannel.stop();
-				var jumpsfx:JumpSound = new JumpSound(); 
-				sfxChannel = jumpsfx.play();
+				MusicPlayer.playSfx('JumpSound', true);
 			}
 		}
 		
@@ -815,7 +837,7 @@
 		}
 		
 		function yowch(forceDeath:Boolean = false) {
-			if (healthState < 1) {
+			if (healthState < 1 && itemsHeld.indexOf('invincibility') == -1) {
 				if (!forceDeath) {
 					if (rings > 0 || itemsHeld.indexOf('shield') != -1) {
 						jumping = false;
@@ -826,17 +848,13 @@
 					
 					if (itemsHeld.indexOf('shield') != -1) {
 						// Shield Loster
-						sfxChannel.stop();
-						var hurtsfx:HurtSound = new HurtSound(); 
-						sfxChannel = hurtsfx.play();
+						MusicPlayer.playSfx('HurtSound');
 						
 						itemsHeld.splice(itemsHeld.indexOf('shield'), 1);
 						refreshItemFX();
 					} else if (rings > 0) {
 						// Ring Loster
-						sfxChannel.stop();
-						var loseringssfx:LoseRingsSound = new LoseRingsSound(); 
-						sfxChannel = loseringssfx.play();
+						MusicPlayer.playSfx('LoseRingsSound');
 											
 						var posOfEvil = new Point(x - _lvl.x, (y - params.height/2) - _lvl.y - 32);
 						
@@ -857,9 +875,7 @@
 						rings = 0;
 					} else {
 						// Life Loster
-						sfxChannel.stop();
-						var hurtsfx:HurtSound = new HurtSound(); 
-						sfxChannel = hurtsfx.play();
+						MusicPlayer.playSfx('HurtSound');
 						
 						jumping = false;
 						gravityAngle = 90;
@@ -871,10 +887,8 @@
 				}
 			}
 			
-			if (forceDeath) {
-				sfxChannel.stop();
-				var hurtsfx:HurtSound = new HurtSound(); 
-				sfxChannel = hurtsfx.play();
+			if (forceDeath && healthState != 3) {
+				MusicPlayer.playSfx('HurtSound');
 					
 				jumping = false;
 				gravityAngle = 90;

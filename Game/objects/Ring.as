@@ -20,8 +20,7 @@
 				y = 10000000;
 				
 				// sfx
-				var sfx:RingSound = new RingSound(); 
-				sfx.play();
+				MusicPlayer.playSfx('RingSound', true);
 			}
 		}
 		
